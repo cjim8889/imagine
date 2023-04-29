@@ -35,8 +35,8 @@ def setup_codeformer():
     # download weights
     if not os.path.exists(os.path.join(parent_directory, "model_codeformer", "codeformer.pth")):
         load_file_from_url(url=pretrain_model_url['codeformer'], model_dir=os.path.join(parent_directory, "model_codeformer"), progress=True, file_name=None)
-    if not os.path.exists(os.path.join(parent_directory, "model_realesrgan", "lollypop.pth")):
-        load_file_from_url(url=pretrain_model_url['realesrgan'], model_dir=os.path.join(parent_directory, "model_realesrgan"), progress=True, file_name=None)
+    if not os.path.exists(os.path.join(parent_directory, "model_realesrgan", "realesrgan.pth")):
+        load_file_from_url(url=pretrain_model_url['realesrgan'], model_dir=os.path.join(parent_directory, "model_realesrgan"), progress=True, file_name="realesrgan.pth")
 
     half = True if torch.cuda.is_available() else False
     model = RRDBNet(

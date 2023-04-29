@@ -15,8 +15,6 @@ model = DiffusionPipeline.from_pretrained(
     local_files_only=True,
     custom_pipeline="lpw_stable_diffusion",
     torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
-    requires_safety_checker=False, 
-    safety_checker=lambda images, **kwargs: [images, [False] * len(images)],
 )
 
 logging.info("Setup model")
