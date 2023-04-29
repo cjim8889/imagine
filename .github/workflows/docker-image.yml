@@ -5,6 +5,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  release:
+    types: [ "created" ]
 
 env:
   REGISTRY: ghcr.io
@@ -20,7 +22,7 @@ jobs:
     - name: Maximize build disk space
       uses: easimon/maximize-build-space@v7
       with:
-        root-reserve-mb: 512
+        root-reserve-mb: 46080
         swap-size-mb: 1024
         remove-dotnet: 'true'
         remove-android: 'true'
@@ -41,6 +43,12 @@ jobs:
       uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=edge,branch=main,pattern=latest
     - name: Build and push Docker image
       uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
       with:
