@@ -1,5 +1,5 @@
-# ARG BASE_IMAGE=runpod/pytorch:3.10-2.0.0-117
-ARG BASE_IMAGE=pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
+ARG BASE_IMAGE=runpod/pytorch:3.10-2.0.0-117
+# ARG BASE_IMAGE=pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
 FROM ${BASE_IMAGE} as dev-base
 
 SHELL ["/bin/bash", "-c"]
