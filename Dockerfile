@@ -14,13 +14,13 @@ RUN pip install dlib
 # Copy model directory and handler.py
 COPY . /app
 
-WORKDIR /app
-RUN git submodule update --init --recursive
+# WORKDIR /app
+# RUN git submodule update --init --recursive
 
-WORKDIR /app/model
+# WORKDIR /app/model
 
-RUN git lfs install && \
-    git lfs pull
+# RUN git lfs install && \
+#     git lfs pull
 
 # Set the working directory
 WORKDIR /app/components/CodeFormer
