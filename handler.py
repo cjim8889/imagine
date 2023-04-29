@@ -26,7 +26,7 @@ s3_client = boto3.client(
 
 ## load your model(s) into vram here
 default_negative_prompt = '''
-    canvas frame, cartoon, 3d, ((disfigured)), ((bad art)), ((deformed)),((extra limbs)),((close up)),((b&w)), weird colors, blurry, (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), (((deformed))), ((ugly)), blurry, ((bad anatomy)), (((bad proportions))), ((extra limbs)), cloned face, (((disfigured))), out of frame, ugly, extra limbs, (bad anatomy), gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), mutated hands, (fused fingers), (too many fingers), (((long neck))), Photoshop, video game, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, mutation, mutated, extra limbs, extra legs, extra arms, disfigured, deformed, cross-eye, body out of frame, blurry, bad art, bad anatomy, 3d render
+    canvas frame, cartoon, 3d, ((disfigured)), ((bad art)), ((deformed)),((extra limbs)),((close up)),((b&w)), weird colors, blurry, (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), ((ugly)), blurry, ((bad anatomy)), (((bad proportions))), ((extra limbs)), cloned face, (((disfigured))), out of frame, ugly, extra limbs, (bad anatomy), gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), mutated hands, (fused fingers), (too many fingers), (((long neck))), Photoshop, video game, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, mutation, mutated, extra limbs, extra legs, extra arms, disfigured, deformed, cross-eye, body out of frame, blurry, bad art, bad anatomy, 3d render
 '''
 upsampler, codeformer_net = setup_codeformer()
 model = DiffusionPipeline.from_pretrained(
@@ -176,10 +176,10 @@ runpod.serverless.start({
 #     {
 #     "input": {
 #         "id": "test99915",
-#         "prompt": "A hot babe",
+#         "prompt": "masterpiece, best quality, highres, best shadow, best illumination, finely detail, squatting, riding dildo, dildo, contrapposto, exposed breasts, impossible clothes, (pussy:1.2), tight (stockings:1.4) with (skindentation:1.3), (high heels:1.4), (off shoulder dress:1.2), pink hair, long hair, pleasure, orgasm face, pussy juice, (exposed:1.4) breasts, exposed breasts, naked breasts, puffy nipples, sci-fi spaceship, metal, steel, wires, cyberpunk,bound, tied, sex robot, sex machine, by lee jeffries nikon d850 film stock photograph 4 kodak portra 400 camera f1.6 lens rich colors hyper realistic lifelike texture dramatic lighting unreal engine trending on artstation cinestill 800",
 #         "scheduler": "DPMSolverMultistepSchedulerKarras",
 #         "guidance_scale": 7.5,
-#         "seed": 91234,
+#         "seed": 9121234,
 #         "upsample": True,
 #         "face_restore": True,
 #     }
