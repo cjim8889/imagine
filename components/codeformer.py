@@ -49,7 +49,7 @@ def setup_codeformer():
     )
     upsampler = RealESRGANer(
         scale=4,
-        model_path=os.path.join(parent_directory, "model_realesrgan", "RealESRGAN_x4plus.pth"),
+        model_path=os.path.join(parent_directory, "model_realesrgan", "realesrgan.pth"),
         model=model,
         tile=400,
         tile_pad=40,
