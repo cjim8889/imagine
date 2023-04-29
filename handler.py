@@ -94,7 +94,7 @@ def inference(
         image = Image.fromarray(restored_img)
     
     return image
-
+                                                                                                                                                                                                           
 def switch_scheduler(scheduler_name):
     global current_scheduler
     if scheduler_name == current_scheduler:
