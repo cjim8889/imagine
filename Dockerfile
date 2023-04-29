@@ -14,14 +14,18 @@ RUN pip install dlib
 # Copy model directory and handler.py
 COPY . /app
 
+WORKDIR /app
+RUN git submodule update --init --recursive
+
 # Set the working directory
 WORKDIR /app/components/CodeFormer
-
 
 RUN pip install -r requirements.txt && \
     python basicsr/setup.py develop
 
 WORKDIR /app
+
+RUN python setup.py
 
 # Set the entry point
 ENTRYPOINT ["python", "-u", "handler.py"]
