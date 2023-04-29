@@ -4,9 +4,10 @@ FROM ${BASE_IMAGE} as dev-base
 
 SHELL ["/bin/bash", "-c"]
 
+RUN apt-get update
 # Install required Python packages
 RUN python -m pip install --upgrade pip && \
-    pip install boto3 diffusers[torch] runpod && \
+    pip install opencv-python-headless boto3 diffusers[torch] runpod && \
     pip install torchvision transformers
 
 # Copy model directory and handler.py
