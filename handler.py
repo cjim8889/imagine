@@ -140,7 +140,7 @@ def handler(event):
         num_inference_steps=job_input.get("num_inference_steps", 30),
         width=job_input.get("width", 512),
         height=job_input.get("height", 512),
-        guidance_scale=job_input.get("guidance_scale", 10),
+        guidance_scale=job_input.get("guidance_scale", 8.5),
         generator=torch.manual_seed(int(job_input["seed"])) if "seed" in job_input else None,
         face_restore=job_input.get("face_restore", False),
         upsample=job_input.get("upsample", False),
