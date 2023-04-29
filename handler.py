@@ -168,20 +168,20 @@ def handler(event):
     }
 
 
-# runpod.serverless.start({
-#     "handler": handler
-# })
+runpod.serverless.start({
+    "handler": handler
+})
 
-handler(
-    {
-    "input": {
-        "id": "test99915",
-        "prompt": "A hot babe",
-        "scheduler": "DPMSolverMultistepSchedulerKarras",
-        "guidance_scale": 7.5,
-        "seed": 91234,
-        "upsample": True,
-        "face_restore": True,
-    }
-    }
-)
+# handler(
+#     {
+#     "input": {
+#         "id": "test99915",
+#         "prompt": "A hot babe",
+#         "scheduler": "DPMSolverMultistepSchedulerKarras",
+#         "guidance_scale": 7.5,
+#         "seed": 91234,
+#         "upsample": True,
+#         "face_restore": True,
+#     }
+#     }
+# )
