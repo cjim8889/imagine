@@ -33,8 +33,6 @@ model = DiffusionPipeline.from_pretrained(
     os.path.join(current_file_directory, "model"),
     custom_pipeline="lpw_stable_diffusion",
     torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
-    requires_safety_checker=False, 
-    safety_checker=lambda images, **kwargs: [images, [False] * len(images)],
 ).to(device)
 available_schedulers = {v.__name__: v for v in model.scheduler.compatibles}
 current_scheduler = model.scheduler.__class__.__name__
@@ -121,6 +119,8 @@ def switch_scheduler(scheduler_name):
 
 def handler(event):
     job_input = event["input"]
+    job_input = {k: v for k, v in job_input.items() if v is not None}
+
     if "id" not in job_input:
         return { "error": "no id provided"}
     
@@ -168,18 +168,20 @@ def handler(event):
     }
 
 
-runpod.serverless.start({
-    "handler": handler
-})
+# runpod.serverless.start({
+#     "handler": handler
+# })
 
-# handler(
-#     {
-#     "input": {
-#         "id": "test9991",
-#         "prompt": "award winning portrait photo, face focus, stunning Japanese woman, beautiful ((ramen shop)), professional majestic impressionism oil painting by Waterhouse, John Constable, Ed Blinkey, Atey Ghailan, Studio Ghibli, by Jeremy Mann, Greg Manchess, Antonio Moro, trending on ArtStation, trending on CGSociety, Intricate, High Detail, dramatic, makoto shinkai kyoto, trending on artstation, trending on CGsociety, deep shadow, high contrast",
-#         "scheduler": "DPMSolverMultistepSchedulerKarras",
-#         "seed": 91234,
-#         "upsample": True,
-#     }
-#     }
-# )
+handler(
+    {
+    "input": {
+        "id": "test99915",
+        "prompt": "A hot babe",
+        "scheduler": "DPMSolverMultistepSchedulerKarras",
+        "guidance_scale": 7.5,
+        "seed": 91234,
+        "upsample": True,
+        "face_restore": True,
+    }
+    }
+)
