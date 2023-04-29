@@ -1,0 +1,6 @@
+[submodule "components/CodeFormer"]
+	path = components/CodeFormer
+	url = https://github.com/sczhou/CodeFormer
+[submodule "model"]
+	path = model
+	url = https://huggingface.co/cjim8889/AllysMix3
