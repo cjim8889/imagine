@@ -4,13 +4,10 @@ FROM ${BASE_IMAGE} as dev-base
 
 SHELL ["/bin/bash", "-c"]
 
-RUN apt-get update && apt-get install -y build-essential cmake
 # Install required Python packages
 RUN python -m pip install --upgrade pip && \
     pip install boto3 diffusers[torch] runpod && \
     pip install torchvision transformers
-
-RUN pip install dlib
 
 # Copy model directory and handler.py
 COPY . /app

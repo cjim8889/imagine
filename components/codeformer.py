@@ -78,7 +78,7 @@ def codeformer_inference(upsampler, codeformer_net, image, background_enhance, f
         has_aligned = False
         only_center_face = False
         draw_box = False
-        detection_model = "dlib"
+        detection_model = "retinaface_resnet50"
         # print('Inp:', image, background_enhance, face_upsample, upscale, codeformer_fidelity)
 
         img = np.array(image)
