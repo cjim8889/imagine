@@ -12,7 +12,10 @@ RUN python -m pip install --upgrade pip && \
     pip install opencv-python-headless boto3 diffusers[torch] runpod && \
     pip install torchvision transformers
 
-# Copy model directory and handler.py
+# Copy model directory
+COPY model /app/model
+
+# Copy everything else
 COPY . /app
 
 # Set the working directory
