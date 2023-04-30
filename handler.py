@@ -6,6 +6,7 @@ import numpy as np
 import cv2
 from PIL import Image
 from diffusers import DiffusionPipeline
+from data import TextToImageParams
 from components.codeformer import setup_codeformer, codeformer_inference
 import torch
 import time
@@ -24,10 +25,6 @@ s3_client = boto3.client(
     endpoint_url=os.environ['S3_ENDPOINT_URL']
 )
 
-## load your model(s) into vram here
-default_negative_prompt = '''
-    canvas frame, cartoon, 3d, ((disfigured)), ((bad art)), ((deformed)),((extra limbs)),((close up)),((b&w)), weird colors, blurry, (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), ((ugly)), blurry, ((bad anatomy)), (((bad proportions))), ((extra limbs)), cloned face, (((disfigured))), out of frame, ugly, extra limbs, (bad anatomy), gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), mutated hands, (fused fingers), (too many fingers), (((long neck))), Photoshop, video game, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, mutation, mutated, extra limbs, extra legs, extra arms, disfigured, deformed, cross-eye, body out of frame, blurry, bad art, bad anatomy, 3d render
-'''
 upsampler, codeformer_net = setup_codeformer()
 model = DiffusionPipeline.from_pretrained(
     os.path.join(current_file_directory, "model"),
@@ -56,9 +53,10 @@ def inference(
         width=512, 
         height=512,
         guidance_scale=8,
-        generator=torch.manual_seed(0),
+        generator=None,
         face_restore=False,
         upsample=False,
+        codeformer_fidelity=0.5,
         ) -> PIL.Image.Image:
     image = model(
         prompt=prompt,
@@ -78,7 +76,7 @@ def inference(
             background_enhance=True,
             face_upsample=True,
             upscale=4,
-            codeformer_fidelity=0.6,
+            codeformer_fidelity=codeformer_fidelity,
         )
 
         return image
@@ -121,29 +119,23 @@ def handler(event):
     job_input = event["input"]
     job_input = {k: v for k, v in job_input.items() if v is not None}
 
-    if "id" not in job_input:
-        return { "error": "no id provided"}
+    job_input = TextToImageParams(**job_input)
+    switch_scheduler(job_input.scheduler)
     
-    if "prompt" not in job_input:
-        return { "error": "no prompt provided"}
-    
-    if "scheduler" in job_input:
-        switch_scheduler(job_input["scheduler"])
-    
-
     logging.info(f"Starting inference for job {job_input['id']}")
     start_time = time.time()
 
     image = inference(
-        prompt=job_input["prompt"],
-        negative_prompt=job_input.get("negative_prompt", default_negative_prompt),
-        num_inference_steps=job_input.get("num_inference_steps", 30),
-        width=job_input.get("width", 512),
-        height=job_input.get("height", 512),
-        guidance_scale=job_input.get("guidance_scale", 8.5),
-        generator=torch.cuda.manual_seed(int(job_input["seed"])) if "seed" in job_input else None,
-        face_restore=job_input.get("face_restore", False),
-        upsample=job_input.get("upsample", False),
+        prompt=job_input.prompt,
+        negative_prompt=job_input.negative_prompt,
+        num_inference_steps=job_input.num_inference_steps,
+        width=job_input.width,
+        height=job_input.height,
+        guidance_scale=job_input.guidance_scale,
+        generator=torch.cuda.manual_seed(int(job_input.seed)) if job_input.seed is not None else None,
+        face_restore=job_input.face_restore,
+        upsample=job_input.upsample,
+        codeformer_fidelity=job_input.codeformer_fidelity,
     )
 
     elapsed_time = (time.time() - start_time) * 1000
@@ -155,15 +147,12 @@ def handler(event):
     upload_to_s3(bucket_name, key, image)
     logging.info(f"Image uploaded to S3 with key {key}")
 
-
     # Generate a presigned URL for the uploaded image
     presigned_url = generate_public_url(bucket_name, key)
     logging.info(f"Generated presigned URL: {presigned_url}")
 
-
     return {
-        "status": "completed",
-        "url": presigned_url,
+        "image_url": presigned_url,
         "elapsed_time": elapsed_time
     }
 

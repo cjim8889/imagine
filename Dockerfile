@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 # Install required Python packages
 RUN python -m pip install --upgrade pip && \
     pip install opencv-python-headless boto3 diffusers[torch] runpod && \
-    pip install torchvision transformers
+    pip install torchvision transformers pydantic
 
 # Copy everything else
 COPY . /app
