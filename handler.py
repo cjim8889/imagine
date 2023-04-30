@@ -122,7 +122,7 @@ def handler(event):
     job_input = TextToImageParams(**job_input)
     switch_scheduler(job_input.scheduler)
     
-    logging.info(f"Starting inference for job {job_input['id']}")
+    logging.info(f"Starting inference for job {job_input.job_id}")
     start_time = time.time()
 
     image = inference(
@@ -143,7 +143,7 @@ def handler(event):
 
     # After generating the image, upload it to the S3 bucket
     bucket_name = 'ImagineSDBot'
-    key = f"{job_input['id']}.jpg"
+    key = f"{job_input.job_id}.jpg"
     upload_to_s3(bucket_name, key, image)
     logging.info(f"Image uploaded to S3 with key {key}")
 
