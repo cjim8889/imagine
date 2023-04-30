@@ -78,7 +78,7 @@ def inference(
             background_enhance=True,
             face_upsample=True,
             upscale=4,
-            codeformer_fidelity=0.5,
+            codeformer_fidelity=0.6,
         )
 
         return image
